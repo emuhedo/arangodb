@@ -100,7 +100,7 @@ bool Job::finish(std::string const& server, std::string const& shard,
   // Additional payload, which is to be executed in the finish transaction
   Slice operations = Slice::emptyObjectSlice();
   Slice preconditions  = Slice::emptyObjectSlice();
-  
+
   if (payload != nullptr) {
     Slice slice = payload->slice();
     TRI_ASSERT(slice.isObject() || slice.isArray());
@@ -138,7 +138,7 @@ bool Job::finish(std::string const& server, std::string const& shard,
           finished.add(oper.key.copyString(), oper.value);
         }
       }
-      
+
       // --- Remove blocks if specified:
       if (started && !server.empty()) {
         addReleaseServer(finished, server);
@@ -155,7 +155,7 @@ bool Job::finish(std::string const& server, std::string const& shard,
         for (auto const& prec : VPackObjectIterator(preconditions)) {
           finished.add(prec.key.copyString(), prec.value);
         }
-      }      
+      }
     } // -- preconditions
 
   }
@@ -533,7 +533,7 @@ bool Job::abortable(Node const& snapshot, std::string const& jobId) {
       type == "activeFailover") {
     return false;
   } else if (type == "addFollower" || type == "moveShard" ||
-             type == "cleanOutServer") {
+             type == "cleanOutServer" || type == "resignLeadership") {
     return true;
   }
 
