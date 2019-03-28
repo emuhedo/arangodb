@@ -50,6 +50,13 @@ namespace boost
     BOOST_THREAD_DECL void commit_once_region(once_flag& flag) BOOST_NOEXCEPT;
     BOOST_THREAD_DECL void rollback_once_region(once_flag& flag) BOOST_NOEXCEPT;
     inline atomic_type& get_atomic_storage(once_flag& flag)  BOOST_NOEXCEPT;
+
+    template< typename T >
+    typename std::decay< T >::type
+    decay_copy( T && t) {
+      return std::forward< T >( t);
+    }
+
   }
 
 #ifdef BOOST_THREAD_PROVIDES_ONCE_CXX11
